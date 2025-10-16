@@ -32,7 +32,7 @@ An intelligent AI-powered face detection web application that allows users to up
 
 ## 🚀 Live Demo
 
-[Coming Soon - Deployed on Render]
+🌐 **[Live Demo](https://smartlens.onrender.com)** - Try it now!
 
 ## 📦 Installation
 
