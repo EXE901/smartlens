@@ -108,10 +108,6 @@ text
 
 Visit `http://localhost:5173`
 
-## 📸 Screenshots
-
-[Add screenshots after deployment]
-
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to submit issues or pull requests.
