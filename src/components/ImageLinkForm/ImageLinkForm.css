@@ -285,3 +285,62 @@
     font-size: 14px;
   }
 }
+
+/* Mode Toggle Buttons */
+.mode-toggle {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 20px auto 30px;
+  max-width: 600px;
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mode-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.mode-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.mode-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mode-icon {
+  font-size: 20px;
+}
+
+@media (max-width: 768px) {
+  .mode-toggle {
+    flex-direction: column;
+    max-width: 300px;
+  }
+  
+  .mode-btn {
+    width: 100%;
+  }
+}
+

@@ -24,7 +24,7 @@ import {
   handleAccountDelete,
   checkAuthType
 } from './database.js';
-import { handleFaceDetect, handleObjectDetect } from './clarifai.js';
+import { handleFaceDetect, handleObjectDetect, handleCombinedDetect } from './clarifai.js';
 
 // Get directory path (ES modules don't have __dirname by default)
 const __filename = fileURLToPath(import.meta.url);
@@ -113,6 +113,7 @@ app.get('/check-auth/:email', checkAuthType);
 app.put('/image', handleImage);
 app.post('/api/face-detect', handleFaceDetect);
 app.post('/api/object-detect', handleObjectDetect);
+app.post('/api/combined-detect', handleCombinedDetect);  // ← NEW ROUTE!
 
 // ==========================================
 // Health Check Route

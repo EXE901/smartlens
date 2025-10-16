@@ -262,3 +262,15 @@ body, html, #root {
   background: rgba(0, 212, 255, 0.7);
 }
 
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 12px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 100;
+  height: 50px;  
+}

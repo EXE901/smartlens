@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import './RecognitionDetector.css';
 
-const RecognitionDetector = ({ imageUrl, boxes, box, objects, loading, onBoxClick }) => {
+const RecognitionDetector = ({ imageUrl, boxes, box, objects, loading, onBoxClick, searchMode, onSearchModeChange }) => {
     const normalizedBoxes = useMemo(() => {
         const img = typeof document !== 'undefined' ? document.getElementById('inputimage') : null;
         const imgW = img ? Number(img.width) : null;
@@ -73,6 +73,29 @@ const RecognitionDetector = ({ imageUrl, boxes, box, objects, loading, onBoxClic
 
     return (
         <div className='center ma'>
+            {/* NEW: Search Mode Toggle */}
+            {(normalizedBoxes.length > 0 || normalizedObjects.length > 0) && !loading && (
+                <div className="search-mode-toggle">
+                    <span className="toggle-label">When clicking boxes:</span>
+                    <div className="toggle-buttons">
+                        <button
+                            className={`toggle-btn ${searchMode === 'crop' ? 'active' : ''}`}
+                            onClick={() => onSearchModeChange && onSearchModeChange('crop')}
+                        >
+                            <span className="btn-icon">✂️</span>
+                            Search Cropped Area
+                        </button>
+                        <button
+                            className={`toggle-btn ${searchMode === 'full' ? 'active' : ''}`}
+                            onClick={() => onSearchModeChange && onSearchModeChange('full')}
+                        >
+                            <span className="btn-icon">🖼️</span>
+                            Search Full Image
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <div className='center mt2 detector-container' style={{ position: 'relative', display: 'block', margin: '0 auto', width: 'fit-content' }}>
                 <img 
                     id='inputimage' 
@@ -166,7 +189,7 @@ const RecognitionDetector = ({ imageUrl, boxes, box, objects, loading, onBoxClic
                                 zIndex: 100
                             }}
                             onClick={() => onBoxClick && onBoxClick('face', i, undefined, originalBox)}
-                            title="Click to search web for similar faces"
+                            title={`Click to search ${searchMode === 'crop' ? 'cropped face' : 'full image'}`}
                         >
                             <span className="box-label face-label">
                                 <span className="label-icon">👤</span> Face {i + 1}
@@ -196,7 +219,7 @@ const RecognitionDetector = ({ imageUrl, boxes, box, objects, loading, onBoxClic
                                 zIndex: 50
                             }}
                             onClick={() => onBoxClick && onBoxClick('object', i, obj.name, originalObj)}
-                            title={`Click to search web for ${obj.name}`}
+                            title={`Click to search ${searchMode === 'crop' ? obj.name : 'full image'}`}
                         >
                             <span className="box-label object-label">
                                 <span className="label-icon">🔍</span> {obj.name} {Math.round(obj.confidence * 100)}%
@@ -228,7 +251,7 @@ const RecognitionDetector = ({ imageUrl, boxes, box, objects, loading, onBoxClic
                         )}
                     </p>
                     <p className="f6 white-70 mt2">
-                        💡 Click any box to search the web for similar images
+                        💡 Click any box to search the web • Mode: {searchMode === 'crop' ? 'Cropped Area' : 'Full Image'}
                     </p>
                 </div>
             )}

@@ -3,7 +3,7 @@ import './ImageLinkForm.css';
 
 const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_API_KEY;
 
-const ImageLinkForm = ({ onInputChange, onButtonSubmit, onImageLoadSuccess, onImageLoadError, loading }) => {
+const ImageLinkForm = ({ onInputChange, onButtonSubmit, onImageLoadSuccess, onImageLoadError, loading, detectionMode, onModeChange }) => {
   const [value, setValue] = useState('');
   const [error, setError] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -126,7 +126,44 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit, onImageLoadSuccess, onIm
 
   return (
     <div className="tc pa5 br3 center">
-      <p className="f2 pa2 white">This Model will detect faces in your pictures. Give it a try.</p>
+      <p className="f2 pa2 white">
+        {detectionMode === 'faces' && 'This Model will detect faces in your pictures.'}
+        {detectionMode === 'objects' && 'This Model will detect objects in your pictures.'}
+        {detectionMode === 'both' && 'This Model will detect faces and objects in your pictures.'}
+        {' '}Give it a try.
+      </p>
+
+      {/* NEW: Mode Toggle Buttons */}
+      <div className="mode-toggle">
+        <button
+          type="button"
+          className={`mode-btn ${detectionMode === 'faces' ? 'active' : ''}`}
+          onClick={() => onModeChange && onModeChange('faces')}
+          disabled={loading || uploading}
+        >
+          <span className="mode-icon">👤</span>
+          Faces Only
+        </button>
+        <button
+          type="button"
+          className={`mode-btn ${detectionMode === 'objects' ? 'active' : ''}`}
+          onClick={() => onModeChange && onModeChange('objects')}
+          disabled={loading || uploading}
+        >
+          <span className="mode-icon">🎯</span>
+          Objects Only
+        </button>
+        <button
+          type="button"
+          className={`mode-btn ${detectionMode === 'both' ? 'active' : ''}`}
+          onClick={() => onModeChange && onModeChange('both')}
+          disabled={loading || uploading}
+        >
+          <span className="mode-icon">🔍</span>
+          Both
+        </button>
+      </div>
+
       <form className="form center pa4 br3 shadow-4" onSubmit={handleSubmit}>
         <input
           aria-label="image-url"

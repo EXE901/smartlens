@@ -34,6 +34,8 @@ class App extends Component {
       searchResults: null,
       searchQuery: '',
       searchLoading: false,
+      detectionMode: 'both',  // 'faces', 'objects', or 'both'
+      searchMode: 'crop',     // NEW: 'crop' or 'full'
     };
   }
 
@@ -93,14 +95,25 @@ class App extends Component {
     this.setState({ input: event.target.value });
   };
 
+  onModeChange = (mode) => {
+    this.setState({ detectionMode: mode });
+  };
+
+  // NEW: Search mode toggle
+  onSearchModeChange = (mode) => {
+    this.setState({ searchMode: mode });
+  };
+
   displayFaceBox = (boxes) => {
     this.setState({ boxes: boxes });
   };
 
   onButtonSubmit = async () => {
+    const { detectionMode, input, user } = this.state;
+    
     this.setState({ 
       loading: true, 
-      imageUrl: this.state.input,
+      imageUrl: input,
       boxes: [],
       objects: [],
       facesDetected: 0,
@@ -108,21 +121,35 @@ class App extends Component {
     });
 
     try {
-      const faceResponse = await fetch(`${API_URL}/api/face-detect`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image_url: this.state.input }),
-      });
+      let faceData = { boxes: [] };
+      let objectData = { objects: [] };
 
-      const faceData = await faceResponse.json();
-
-      const objectResponse = await fetch(`${API_URL}/api/object-detect`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image_url: this.state.input }),
-      });
-
-      const objectData = await objectResponse.json();
+      if (detectionMode === 'both') {
+        const response = await fetch(`${API_URL}/api/combined-detect`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image_url: input }),
+        });
+        const data = await response.json();
+        faceData = { boxes: data.boxes || [] };
+        objectData = { objects: data.objects || [] };
+        
+      } else if (detectionMode === 'faces') {
+        const response = await fetch(`${API_URL}/api/face-detect`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image_url: input }),
+        });
+        faceData = await response.json();
+        
+      } else if (detectionMode === 'objects') {
+        const response = await fetch(`${API_URL}/api/object-detect`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image_url: input }),
+        });
+        objectData = await response.json();
+      }
 
       const image = document.getElementById('inputimage');
       if (image) {
@@ -152,17 +179,17 @@ class App extends Component {
           objectsDetected: formattedObjects.length
         });
 
-        if (this.state.user && this.state.user.id && faceData.boxes && faceData.boxes.length > 0) {
+        if (user && user.id && faceData.boxes && faceData.boxes.length > 0) {
           const updateResponse = await fetch(`${API_URL}/image`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: this.state.user.id })
+            body: JSON.stringify({ id: user.id })
           });
 
           const newEntries = await updateResponse.json();
           
           const updatedUser = {
-            ...this.state.user,
+            ...user,
             entries: newEntries
           };
           
@@ -177,8 +204,12 @@ class App extends Component {
     }
   };
 
+  // UPDATED: onBoxClick with searchMode support
   onBoxClick = async (type, index, objectName, box) => {
+    const { searchMode, imageUrl } = this.state;
+    
     console.log(`Clicked ${type} box #${index}`, objectName);
+    console.log(`Search mode: ${searchMode}`);
     
     this.setState({ 
       searchModalOpen: true, 
@@ -186,65 +217,70 @@ class App extends Component {
       searchQuery: type === 'face' ? 'Similar Face' : objectName
     });
 
-    let searchImageUrl = this.state.imageUrl;
+    let searchImageUrl = imageUrl;
 
-    try {
-      const img = document.getElementById('inputimage');
-      if (img && img.complete) {
-        await new Promise((resolve) => {
-          if (img.complete) resolve();
-          else img.onload = resolve;
-        });
-
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-
-        let cropX, cropY, cropWidth, cropHeight;
-        
-        if (type === 'face') {
-          cropX = box.leftCol;
-          cropY = box.topRow;
-          cropWidth = img.width - box.leftCol - box.rightCol;
-          cropHeight = img.height - box.topRow - box.bottomRow;
-        } else {
-          cropX = box.left_col * img.width;
-          cropY = box.top_row * img.height;
-          cropWidth = (box.right_col - box.left_col) * img.width;
-          cropHeight = (box.bottom_row - box.top_row) * img.height;
-        }
-
-        cropX = Math.max(0, cropX);
-        cropY = Math.max(0, cropY);
-        cropWidth = Math.min(cropWidth, img.width - cropX);
-        cropHeight = Math.min(cropHeight, img.height - cropY);
-
-        if (cropWidth > 0 && cropHeight > 0) {
-          canvas.width = cropWidth;
-          canvas.height = cropHeight;
-          ctx.drawImage(img, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
-          
-          const croppedBase64 = canvas.toDataURL('image/jpeg', 0.9).split(',')[1];
-          
-          const formData = new FormData();
-          formData.append('image', croppedBase64);
-
-          const uploadResponse = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-            method: 'POST',
-            body: formData,
+    // Only crop if searchMode is 'crop'
+    if (searchMode === 'crop') {
+      try {
+        const img = document.getElementById('inputimage');
+        if (img && img.complete) {
+          await new Promise((resolve) => {
+            if (img.complete) resolve();
+            else img.onload = resolve;
           });
 
-          const uploadData = await uploadResponse.json();
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+
+          let cropX, cropY, cropWidth, cropHeight;
           
-          if (uploadData.success) {
-            searchImageUrl = uploadData.data.url;
-            console.log('✅ Using cropped image:', searchImageUrl);
+          if (type === 'face') {
+            cropX = box.leftCol;
+            cropY = box.topRow;
+            cropWidth = img.width - box.leftCol - box.rightCol;
+            cropHeight = img.height - box.topRow - box.bottomRow;
           } else {
-            console.log('⚠️ Crop upload failed, using full image');
+            cropX = box.left_col * img.width;
+            cropY = box.top_row * img.height;
+            cropWidth = (box.right_col - box.left_col) * img.width;
+            cropHeight = (box.bottom_row - box.top_row) * img.height;
+          }
+
+          cropX = Math.max(0, cropX);
+          cropY = Math.max(0, cropY);
+          cropWidth = Math.min(cropWidth, img.width - cropX);
+          cropHeight = Math.min(cropHeight, img.height - cropY);
+
+          if (cropWidth > 0 && cropHeight > 0) {
+            canvas.width = cropWidth;
+            canvas.height = cropHeight;
+            ctx.drawImage(img, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+            
+            const croppedBase64 = canvas.toDataURL('image/jpeg', 0.9).split(',')[1];
+            
+            const formData = new FormData();
+            formData.append('image', croppedBase64);
+
+            const uploadResponse = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+              method: 'POST',
+              body: formData,
+            });
+
+            const uploadData = await uploadResponse.json();
+            
+            if (uploadData.success) {
+              searchImageUrl = uploadData.data.url;
+              console.log('✅ Using cropped image:', searchImageUrl);
+            } else {
+              console.log('⚠️ Crop upload failed, using full image');
+            }
           }
         }
+      } catch (error) {
+        console.warn('⚠️ Cropping failed, using full image:', error);
       }
-    } catch (error) {
-      console.warn('⚠️ Cropping failed, using full image:', error);
+    } else {
+      console.log('🖼️ Using full image (crop mode disabled)');
     }
 
     try {
@@ -260,13 +296,13 @@ class App extends Component {
       const data = await response.json();
       
       if (!data.results || !data.results.visual_matches || data.results.visual_matches.length === 0) {
-        console.log('⚠️ No results from crop, retrying with full image...');
+        console.log('⚠️ No results, retrying...');
         
         const retryResponse = await fetch(`${API_URL}/api/search-image`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            imageUrl: this.state.imageUrl,
+            imageUrl: imageUrl,
             query: null
           })
         });
@@ -312,7 +348,9 @@ class App extends Component {
       searchModalOpen,
       searchResults,
       searchQuery,
-      searchLoading
+      searchLoading,
+      detectionMode,
+      searchMode  // NEW
     } = this.state;
 
     return (
@@ -381,6 +419,8 @@ class App extends Component {
                   <ImageLinkForm
                     onInputChange={this.onInputChange}
                     onButtonSubmit={this.onButtonSubmit}
+                    onModeChange={this.onModeChange}
+                    detectionMode={detectionMode}
                     loading={loading}
                   />
                   <RecognitionDetector 
@@ -389,6 +429,8 @@ class App extends Component {
                     imageUrl={imageUrl} 
                     loading={loading}
                     onBoxClick={this.onBoxClick}
+                    searchMode={searchMode}
+                    onSearchModeChange={this.onSearchModeChange}
                   />
                   <Footer />
                 </>
