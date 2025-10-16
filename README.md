@@ -1,4 +1,4 @@
-# Smart Vision 🎯
+# Smart Lens 🎯
 
 An intelligent AI-powered face detection web application that allows users to upload images and detect faces in real-time with visual bounding boxes.
 
@@ -45,8 +45,8 @@ An intelligent AI-powered face detection web application that allows users to up
 ### Setup
 
 1. **Clone the repository**
-git clone https://github.com/exe901/smart-vision.git
-cd smart-vision
+git clone https://github.com/exe901/smartlens.git
+cd smartlens
 
 text
 
