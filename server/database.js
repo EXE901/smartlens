@@ -11,8 +11,10 @@ dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const db = knex({
   client: 'pg',
-  connection: process.env.DATABASE_URL || 'postgresql://postgres:swivx@127.0.0.1:5432/smart',
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  connection: {
+    connectionString: process.env.DATABASE_URL || 'postgresql://postgres:swivx@127.0.0.1:5432/smart',
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  }
 });
 
 db.raw('SELECT 1')
