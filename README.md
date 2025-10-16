@@ -124,7 +124,7 @@ MIT License - feel free to use this project for learning or your portfolio!
 
 **Nour Alaa**
   - GitHub: [EXE901](https://github.com/EXE901)
-- LinkedIn: [Nour Alaa]([https://linkedin.com/in/your-profile](https://www.linkedin.com/in/nour-alaa-428466371/))
+- LinkedIn: [Nour Alaa](https://www.linkedin.com/in/nour-alaa-428466371/)
 
 ---
 
