@@ -1,0 +1,287 @@
+.form {
+  width: 700px;
+  max-width: 95%;
+  background-color: #6767be;
+  opacity: 0.8;
+  background: repeating-linear-gradient( -45deg, #444cf7, #444cf7 5px, #262680 5px, #2d2d7c 25px );
+}
+
+.input-link {
+  width: 70%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px 0 0 4px;
+}
+
+.detect-button {
+  display: block;
+  width: 30%;
+  min-width: 120px;
+  max-width: 200px;
+  margin: 0 auto;
+  border-radius: 4px;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.detect-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.detect-button.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+.detect-button.active {
+  background: #0b3d91 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.detect-button.disabled {
+  background: rgba(11,61,145,0.35) !important;
+}
+
+.error-popup {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background: rgba(255,255,255,0.06);
+  border: 2px solid rgba(255,0,0,0.9);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  color: white;
+  z-index: 100000;
+  backdrop-filter: blur(6px);
+  animation: popup-in 360ms cubic-bezier(.2,.9,.2,1);
+}
+
+.error-x {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,0,0,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  animation: x-bounce 800ms ease;
+}
+
+.error-text { 
+  font-size: 0.95rem; 
+}
+
+@keyframes x-bounce {
+  0% { transform: scale(0.8) rotate(-10deg); }
+  60% { transform: scale(1.06) rotate(8deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes popup-in {
+  from { transform: translateY(18px); opacity: 0 }
+  to { transform: translateY(0); opacity: 1 }
+}
+
+.success-popup {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background: rgba(0,0,0,0.35);
+  border: 2px solid rgba(0,200,120,0.95);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  color: white;
+  z-index: 100000;
+  backdrop-filter: blur(6px);
+  animation: popup-in 360ms cubic-bezier(.2,.9,.2,1);
+}
+
+.success-check {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0,200,120,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  animation: x-bounce 800ms ease;
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+.upload-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 40px;
+  margin: 20px 0;
+  background: rgba(255, 255, 255, 0.98);
+  border: 3px dashed #4a90e2;
+  border-radius: 12px;
+  color: #4a90e2;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.4),
+    0 0 40px rgba(255, 255, 255, 0.2);
+  width: auto;
+  max-width: 100%;
+}
+
+
+.upload-button:hover {
+  background: white;
+  border-color: #357abd;
+  color: #357abd;
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 0 35px rgba(255, 255, 255, 0.7),
+    0 0 60px rgba(255, 255, 255, 0.5),
+    0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.upload-button svg {
+  width: 26px;
+  height: 26px;
+  stroke: currentColor;
+}
+
+.upload-divider {
+  margin: 28px 0;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  position: relative;
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.9),
+    0 0 20px rgba(255, 255, 255, 0.6);
+  letter-spacing: 2px;
+}
+
+.upload-divider::before,
+.upload-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 35%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.upload-divider::before {
+  left: 0;
+}
+
+.upload-divider::after {
+  right: 0;
+}
+
+.upload-hint {
+  font-size: 16px;
+  color: white;
+  margin: 14px 0 24px;
+  text-align: center;
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.7),
+    0 0 20px rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.input-link:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ========================================= */
+/* RESPONSIVE DESIGN */
+/* ========================================= */
+
+@media (max-width: 768px) {
+  .form {
+    width: 100%;
+    padding: 20px 15px;
+  }
+
+  .upload-button {
+    width: 60%;
+    min-width: auto; /* ← REMOVE fixed min-width! */
+    padding: 16px 20px;
+    font-size: 18px;
+  }
+
+  .upload-hint {
+    font-size: 14px;
+  }
+
+  .upload-divider {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-link {
+    width: 60%;
+    font-size: 14px;
+  }
+
+  .detect-button {
+    width: 40%;
+    font-size: 14px;
+  }
+
+  .upload-button {
+    width: 60%;
+    min-width: auto;
+    padding: 14px 16px;
+    font-size: 16px;
+    gap: 8px;
+  }
+
+  .upload-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .upload-divider {
+    font-size: 16px;
+  }
+
+  .upload-hint {
+    font-size: 12px;
+  }
+
+  .error-popup,
+  .success-popup {
+    right: 12px;
+    bottom: 12px;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,9 @@
+.Tilt-inner {
+    height: 80px;
+    width: 80px;
+    background: radial-gradient(circle, rgb(15, 31, 109) 0%, rgb(4, 4, 74)  100%);
+    display: flex;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}

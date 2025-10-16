@@ -1,0 +1,88 @@
+/* .App {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: transparent;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+    z-index: 1;
+} */
+html, body, #root, .App {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  position: relative; /* required for particles z-index */
+  overflow-y: auto !important;
+  height: auto !important;
+}
+
+.App > * {
+  position: relative; /* make sure content overlays particles */
+  z-index: 1;
+}
+
+
+/* Web search spinner */
+.spinner-search {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 6px solid rgba(0, 255, 203, 0.2);
+  border-top-color: #00ffcb;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+/* Web results grid */
+.web-results-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.result-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.result-card:hover {
+  transform: translateY(-4px);
+  border-color: #00ffcb;
+  box-shadow: 0 8px 24px rgba(0, 255, 203, 0.3);
+}
+
+.result-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.result-info {
+  padding: 16px;
+  text-align: left;
+}
+
+.result-info h4 {
+  margin: 0 0 8px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

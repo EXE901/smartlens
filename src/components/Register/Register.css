@@ -1,0 +1,264 @@
+body, html, #root {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(2,0,36,1) 0%,
+    rgba(9,9,121,1) 35%,
+    rgba(0,212,255,1) 100%
+  );
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+.register-page {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.register-form {
+  height: auto;
+  max-height: 90vh;
+  width: 100%;
+  max-width: 450px;
+  background-color: rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 50px 35px;
+  color: #000;
+  z-index: 1;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.register-form h3 {
+  font-size: 32px;
+  font-weight: 500;
+  text-align: center;
+  margin: 0 0 15px 0;
+}
+
+.register-form label {
+  display: block;
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.register-form input {
+  display: block;
+  height: 50px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 0 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  color: #fff;
+}
+
+.register-form ::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.register-form button {
+  margin-top: 25px;
+  width: 100%;
+  background-color: #fff;
+  color: #080710;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s;
+}
+
+.register-form button:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: scale(1.02);
+}
+
+.social {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+.social div {
+  background-color: rgba(255, 255, 255, 0.27);
+  flex: 1;
+  border-radius: 3px;
+  padding: 10px;
+  text-align: center;
+  color: #150f03;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.social div:hover {
+  background-color: rgba(255, 255, 255, 0.47);
+}
+
+@media (prefers-color-scheme: dark) {
+  .register-form,
+  .register-form * {
+    color: #fff;
+  }
+}
+
+.error-message {
+  background: rgba(231, 76, 60, 0.2);
+  border: 2px solid #e74c3c;
+  color: #fff;
+  padding: 12px 15px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-align: center;
+  animation: slideDown 0.3s ease-out;
+  backdrop-filter: blur(10px);
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-placeholder {
+  height: 67px;
+  margin-bottom: 10px;
+  visibility: hidden;
+}
+
+.success-message {
+  background: rgba(46, 204, 113, 0.2);
+  border: 2px solid #2ecc71;
+  color: #fff;
+  padding: 12px 15px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-align: center;
+  animation: slideDown 0.3s ease-out;
+  backdrop-filter: blur(10px);
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  margin-top: 10px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.strength-item {
+  font-size: 12px;
+  color: rgba(231, 76, 60, 0.8);
+  padding: 4px 0;
+  transition: all 0.3s;
+}
+
+.strength-item.valid {
+  color: rgba(46, 204, 113, 1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .register-page {
+    padding: 15px;
+  }
+
+  .register-form {
+    max-width: 100%;
+    padding: 40px 30px;
+  }
+
+  .register-form h3 {
+    font-size: 28px;
+  }
+
+  .social {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .social div {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-page {
+    padding: 10px;
+    overflow-y: auto;
+  }
+
+  body, html, #root {
+    overflow: auto;
+  }
+
+  .register-form {
+    padding: 30px 20px;
+    max-height: none;
+    margin: 20px 0;
+  }
+
+  .register-form h3 {
+    font-size: 24px;
+  }
+}
+
+.register-form::-webkit-scrollbar {
+  width: 6px;
+}
+
+.register-form::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.register-form::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.5);
+  border-radius: 10px;
+}
+
+.register-form::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.7);
+}
+

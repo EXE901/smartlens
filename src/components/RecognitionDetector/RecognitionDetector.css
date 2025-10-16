@@ -1,0 +1,200 @@
+.bounding-box {
+    position: absolute;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    z-index: 10;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Face boxes - Cyan with animated corners */
+.face-box {
+    border: 2px solid #00ffcb !important;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 203, 0.4),
+        inset 0 0 20px rgba(0, 255, 203, 0.05) !important;
+    background: rgba(0, 255, 203, 0.08) !important;
+        z-index: 100;
+}
+
+.face-box:hover {
+    background: rgba(0, 255, 203, 0.15) !important;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 203, 0.7),
+        inset 0 0 30px rgba(0, 255, 203, 0.1) !important;
+    transform: scale(1.02);
+}
+
+/* Object boxes - Purple with animated corners */
+.object-box {
+    border: 2px solid #b544ff !important;
+    box-shadow: 
+        0 0 20px rgba(181, 68, 255, 0.4),
+        inset 0 0 20px rgba(181, 68, 255, 0.05) !important;
+    background: rgba(181, 68, 255, 0.08) !important;
+        z-index: 50;
+}
+
+.object-box:hover {
+    background: rgba(181, 68, 255, 0.15) !important;
+    box-shadow: 
+        0 0 30px rgba(181, 68, 255, 0.7),
+        inset 0 0 30px rgba(181, 68, 255, 0.1) !important;
+    transform: scale(1.02);
+}
+
+/* Corner markers (action movie style!) */
+.corner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-style: solid;
+    pointer-events: none;
+}
+
+.corner-tl {
+    top: -2px;
+    left: -2px;
+    border-width: 3px 0 0 3px;
+    border-color: inherit;
+}
+
+.corner-tr {
+    top: -2px;
+    right: -2px;
+    border-width: 3px 3px 0 0;
+    border-color: inherit;
+}
+
+.corner-bl {
+    bottom: -2px;
+    left: -2px;
+    border-width: 0 0 3px 3px;
+    border-color: inherit;
+}
+
+.corner-br {
+    bottom: -2px;
+    right: -2px;
+    border-width: 0 3px 3px 0;
+    border-color: inherit;
+}
+
+.face-box .corner {
+    border-color: #00ffcb;
+    animation: pulse-cyan 2s infinite;
+}
+
+.object-box .corner {
+    border-color: #b544ff;
+    animation: pulse-purple 2s infinite;
+}
+
+@keyframes pulse-cyan {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes pulse-purple {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Connector lines animation */
+.connector-line {
+    animation: dash 3s linear infinite;
+    stroke-dasharray: 5, 5;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: -20;
+    }
+}
+
+/* Box labels with icon */
+.box-label {
+    position: absolute;
+    top: -32px;
+    left: 0;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.label-icon {
+    font-size: 14px;
+}
+
+.face-label {
+    background: linear-gradient(135deg, #00ffcb 0%, #00d4aa 100%);
+    color: #000;
+}
+
+.object-label {
+    background: linear-gradient(135deg, #b544ff 0%, #8a2be2 100%);
+    color: #fff;
+}
+
+.detector-container img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.detector-container {
+    text-align: center;
+    position: relative !important;
+    overflow: visible !important;
+}
+
+.rd-spinner-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.18);
+    z-index: 20000 !important;
+    border-radius: 6px;
+}
+
+.rd-spinner {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 6px solid rgba(255,255,255,0.12);
+    border-top-color: #00ffcb;
+    animation: spin 900ms linear infinite;
+}
+
+@keyframes spin { 
+    to { transform: rotate(360deg); } 
+}
+
+/* Detection summary */
+.detection-summary {
+    text-align: center;
+    margin-top: 24px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.face-count {
+    color: #00ffcb;
+    font-weight: 600;
+}
+
+.object-count {
+    color: #b544ff;
+    font-weight: 600;
+}
