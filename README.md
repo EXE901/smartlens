@@ -45,7 +45,7 @@ An intelligent AI-powered face detection web application that allows users to up
 ### Setup
 
 1. **Clone the repository**
-git clone https://github.com/YOUR_USERNAME/smart-vision.git
+git clone https://github.com/exe901/smart-vision.git
 cd smart-vision
 
 text
