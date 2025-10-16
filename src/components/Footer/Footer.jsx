@@ -6,10 +6,10 @@ const Footer = () => {
     <footer className="app-footer">
       <div className="footer-content">
         <div className="footer-links">
-          <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/EXE901" target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
-          <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/nour-alaa-428466371/" target="_blank" rel="noopener noreferrer">
             LinkedIn
           </a>
         </div>
